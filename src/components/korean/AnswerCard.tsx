@@ -18,14 +18,13 @@ export function AnswerCard({
   return (
     <div style={{ 
       width: '100%',
+      maxWidth: '400px',
       display: 'flex',
       alignItems: 'stretch',
       justifyContent: 'space-between',
-      gap: '0.5rem',
-      backgroundColor: 'var(--card-bg)',
-      borderRadius: '12px',
-      border: '2px solid var(--border)',
-      padding: '0.5rem'
+      gap: '1rem',
+      marginTop: '1.5rem',
+      margin: '0 auto'
     }}>
       {selectedAnswer === null ? (
         options.map(option => (
@@ -34,15 +33,20 @@ export function AnswerCard({
             onClick={() => onAnswerClick(option)}
             style={{
               flex: 1,
-              borderRadius: '8px',
+              aspectRatio: '1',
+              borderRadius: '16px',
               border: '1px solid var(--border)',
-              backgroundColor: 'var(--background)',
-              color: 'var(--text)',
+              background: 'linear-gradient(135deg, #FFFFFF 0%, #F9EFFF 100%)',
+              color: 'var(--background)',
               cursor: 'pointer',
               padding: '0.5rem',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
-              textOverflow: 'ellipsis'
+              textOverflow: 'ellipsis',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.5rem'
             }}
           >
             {option}
@@ -55,16 +59,21 @@ export function AnswerCard({
             disabled={selectedAnswer !== currentQuestion?.[1]}
             style={{
               flex: 1,
+              aspectRatio: '1',
               borderRadius: '8px',
-              backgroundColor: 'var(--background)',
-              color: 'var(--text)',
+              background: 'linear-gradient(135deg, #FFFFFF 0%, #F9EFFF 100%)',
+              color: 'var(--background)',
               border: '1px solid var(--border)',
               cursor: selectedAnswer === currentQuestion?.[1] ? 'pointer' : 'not-allowed',
               padding: '0.5rem',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
-              opacity: selectedAnswer === currentQuestion?.[1] ? 1 : 0.5
+              opacity: selectedAnswer === currentQuestion?.[1] ? 1 : 0.5,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.5rem'
             }}
           >
             Remove
@@ -73,6 +82,7 @@ export function AnswerCard({
           <div
             style={{
               flex: 1,
+              aspectRatio: '1',
               borderRadius: '8px',
               backgroundColor: selectedAnswer === currentQuestion?.[1] ? 'lightgreen' : 'salmon',
               color: 'black',
@@ -83,7 +93,8 @@ export function AnswerCard({
               padding: '0.5rem',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
-              textOverflow: 'ellipsis'
+              textOverflow: 'ellipsis',
+              fontSize: '1.5rem'
             }}
           >
             {selectedAnswer}
@@ -93,15 +104,20 @@ export function AnswerCard({
             onClick={onNext}
             style={{
               flex: 1,
+              aspectRatio: '1',
               borderRadius: '8px',
-              backgroundColor: 'var(--background)',
-              color: 'var(--text)',
+              background: 'linear-gradient(135deg, #FFFFFF 0%, #F9EFFF 100%)',
+              color: 'var(--background)',
               border: '1px solid var(--border)',
               cursor: 'pointer',
               padding: '0.5rem',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
-              textOverflow: 'ellipsis'
+              textOverflow: 'ellipsis',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.5rem'
             }}
           >
             Next

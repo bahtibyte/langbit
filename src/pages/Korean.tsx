@@ -2,7 +2,8 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import { Header } from '../components/korean/Header';
 import { QuestionCard } from '../components/korean/QuestionCard';
-import { AnswerCard } from '../components/korean/AnswerCard';
+import { AnswerOptions } from '../components/korean/AnswerOptions';
+import { RoundControls } from '../components/korean/RoundControls';
 import { GameInfo } from '../components/korean/GameInfo';
 import { Lecture } from '../components/korean/Lecture';
 
@@ -119,14 +120,32 @@ function Korean() {
         }}>
           <GameInfo remainingCount={questionPool.length} />
           <QuestionCard question={currentQuestion[0]} />
-          <AnswerCard
-            options={options}
-            selectedAnswer={selectedAnswer}
-            currentQuestion={currentQuestion}
-            onAnswerClick={handleAnswerClick}
-            onRemove={handleRemove}
-            onNext={handleNext}
-          />
+
+          <div style={{ 
+            width: '100%',
+            maxWidth: '400px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1rem',
+            margin: '0 auto'
+          }}>
+            {!selectedAnswer ? (
+              <AnswerOptions 
+                options={options} 
+                onAnswerClick={handleAnswerClick} 
+              />
+            ) : (
+              <RoundControls 
+                selectedAnswer={selectedAnswer}
+                currentQuestion={currentQuestion}
+                onRemove={handleRemove}
+                onNext={handleNext}
+              />
+            )}
+          </div>
+          
           <Lecture
             koreanLetter={currentQuestion[0]}
             translation={currentQuestion[1]}

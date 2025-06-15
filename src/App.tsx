@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
 import './App.css'
 import Korean from './pages/Korean'
@@ -45,9 +44,7 @@ function ProgressCircle({ percent }: { percent: number }) {
 
 function Home() {
   const navigate = useNavigate();
-  const [selectedLanguage, setSelectedLanguage] = useState('korean');
-
-  const handleGameSelect = (type: string) => {
+  const routeToKorean = (type: string) => {
     navigate(`/korean?game=${type}`);
   };
 
@@ -75,7 +72,7 @@ function Home() {
               <div className="card-title">Vowels</div>
               <div className="card-desc">Focus on learning Korean vowels, one by one.</div>
             </div>
-            <button className="start-btn" onClick={() => handleGameSelect('vowels')}>Start</button>
+            <button className="start-btn" onClick={() => routeToKorean('vowels')}>Start</button>
           </div>
         </div>
         {/* Consonants Card */}
@@ -88,7 +85,7 @@ function Home() {
               <div className="card-title">Consonants</div>
               <div className="card-desc">Learn and review Korean consonants at your own pace.</div>
             </div>
-            <button className="start-btn" onClick={() => handleGameSelect('consonants')}>Start</button>
+            <button className="start-btn" onClick={() => routeToKorean('consonants')}>Start</button>
           </div>
         </div>
         {/* Mix Letters Card */}
@@ -103,7 +100,7 @@ function Home() {
               <div className="card-title">Mix Letters</div>
               <div className="card-desc">Combine vowels and consonants to build a solid foundation.</div>
             </div>
-            <button className="start-btn" onClick={() => handleGameSelect('both')}>Start</button>
+            <button className="start-btn" onClick={() => routeToKorean('both')}>Start</button>
           </div>
         </div>
       </div>

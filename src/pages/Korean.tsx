@@ -1,5 +1,10 @@
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
+import { Header } from '../components/korean/Header';
+import { QuestionCard } from '../components/korean/QuestionCard';
+import { AnswerCard } from '../components/korean/AnswerCard';
+import { GameInfo } from '../components/korean/GameInfo';
+import { Lecture } from '../components/korean/Lecture';
 
 const VOWELS: Record<string, string> = {
   'ㅏ': 'a', 'ㅑ': 'ya', 'ㅓ': 'eo', 'ㅕ': 'yeo', 'ㅗ': 'o',
@@ -46,8 +51,9 @@ function Korean() {
       return;
     }
 
-    const [next, ...rest] = questionPool;
-    setQuestionPool(rest);
+    // Randomly select a question from the pool
+    const randomIndex = Math.floor(Math.random() * questionPool.length);
+    const next = questionPool[randomIndex];
     setCurrentQuestion(next);
     setSelectedAnswer(null);
 
@@ -81,7 +87,6 @@ function Korean() {
   };
 
   const handleNext = () => {
-    setQuestionPool(prev => [...prev, currentQuestion!]); // Push back to end if not removed
     nextRound();
   };
 
@@ -98,39 +103,11 @@ function Korean() {
         flexDirection: 'column',
         overflow: 'hidden'
       }}>
-        {/* Header */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '1rem',
-          borderBottom: '1px solid var(--border)',
-          backgroundColor: 'var(--card-bg)',
-          color: 'var(--text)'
-        }}>
-          <button
-            onClick={() => navigate(-1)}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '0.5rem',
-              color: 'var(--text)'
-            }}
-          >
-            ←
-          </button>
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ color: 'green' }}>✓</span>
-              <span>{correctAnswers}</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ color: 'red' }}>✗</span>
-              <span>{incorrectAnswers}</span>
-            </div>
-          </div>
-        </div>
+        <Header 
+          onBack={() => navigate(-1)}
+          correctAnswers={correctAnswers}
+          incorrectAnswers={incorrectAnswers}
+        />
 
         <div style={{ 
           flex: 1,
@@ -140,113 +117,21 @@ function Korean() {
           gap: '1rem',
           overflow: 'hidden'
         }}>
-          <div
-            style={{
-              aspectRatio: '1',
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              border: '2px solid var(--border)',
-              borderRadius: '12px',
-              backgroundColor: 'var(--card-bg)'
-            }}
-          >
-            {currentQuestion[0]}
-          </div>
-
-          <div style={{ 
-            width: '100%',
-            display: 'flex',
-            alignItems: 'stretch',
-            justifyContent: 'space-between',
-            gap: '0.5rem',
-            backgroundColor: 'var(--card-bg)',
-            borderRadius: '12px',
-            border: '2px solid var(--border)',
-            padding: '0.5rem'
-          }}>
-            {selectedAnswer === null ? (
-              options.map(option => (
-                <button
-                  key={option}
-                  onClick={() => handleAnswerClick(option)}
-                  style={{
-                    flex: 1,
-                    borderRadius: '8px',
-                    border: '1px solid var(--border)',
-                    backgroundColor: 'var(--background)',
-                    color: 'var(--text)',
-                    cursor: 'pointer',
-                    padding: '0.5rem',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis'
-                  }}
-                >
-                  {option}
-                </button>
-              ))
-            ) : (
-              <>
-                <button
-                  onClick={handleRemove}
-                  disabled={selectedAnswer !== currentQuestion[1]}
-                  style={{
-                    flex: 1,
-                    borderRadius: '8px',
-                    backgroundColor: selectedAnswer === currentQuestion[1] ? '#dfffe0' : 'var(--background)',
-                    color: 'var(--text)',
-                    border: '1px solid var(--border)',
-                    cursor: selectedAnswer === currentQuestion[1] ? 'pointer' : 'not-allowed',
-                    padding: '0.5rem',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis'
-                  }}
-                >
-                  Remove
-                </button>
-
-                <div
-                  style={{
-                    flex: 1,
-                    borderRadius: '8px',
-                    backgroundColor: selectedAnswer === currentQuestion[1] ? 'lightgreen' : 'salmon',
-                    color: 'black',
-                    border: '1px solid var(--border)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '0.5rem',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis'
-                  }}
-                >
-                  {selectedAnswer}
-                </div>
-
-                <button
-                  onClick={handleNext}
-                  style={{
-                    flex: 1,
-                    borderRadius: '8px',
-                    backgroundColor: 'var(--background)',
-                    color: 'var(--text)',
-                    border: '1px solid var(--border)',
-                    cursor: 'pointer',
-                    padding: '0.5rem',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis'
-                  }}
-                >
-                  Next
-                </button>
-              </>
-            )}
-          </div>
+          <GameInfo remainingCount={questionPool.length} />
+          <QuestionCard question={currentQuestion[0]} />
+          <AnswerCard
+            options={options}
+            selectedAnswer={selectedAnswer}
+            currentQuestion={currentQuestion}
+            onAnswerClick={handleAnswerClick}
+            onRemove={handleRemove}
+            onNext={handleNext}
+          />
+          <Lecture
+            koreanLetter={currentQuestion[0]}
+            translation={currentQuestion[1]}
+            show={selectedAnswer !== null && selectedAnswer !== currentQuestion[1]}
+          />
         </div>
       </div>
     </div>

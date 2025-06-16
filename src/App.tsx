@@ -189,6 +189,7 @@ function Home() {
             </div>
           </div>
         </div>
+        <div className="bottom-spacer"></div>
       </div>
     </div>
   );

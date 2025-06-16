@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import Korean from './pages/Korean'
+import BackgroundChars from './components/BackgroundChars'
 
 function ProgressCircle({ percent }: { percent: number }) {
   const radius = 22;
@@ -42,42 +43,103 @@ function ProgressCircle({ percent }: { percent: number }) {
 
 function Home() {
   const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState('Korean');
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const routeToKorean = (type: string) => {
     navigate(`/korean?game=${type}`);
   };
 
-  const renderBackgroundChars = (chars: string) => {
-    // Split by spaces and duplicate the array to create more characters
-    const baseChars = chars.split(' ').filter(char => char.trim() !== '');
-    const charArray = [...baseChars, ...baseChars, ...baseChars]; // Triple the number of characters
-    
-    return (
-      <div className="card-bg-text">
-        {charArray.map((char, index) => {
-          const delay = Math.random() * -15; // Random start time for each character
-          return (
-            <span 
-              key={index} 
-              className="bg-char"
-              style={{
-                animationDelay: `${delay}s`
-              }}
-            >
-              {char}
-            </span>
-          );
-        })}
-      </div>
-    );
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLanguageSelect = (language: string) => {
+    setSelectedLanguage(language);
+    setIsDropdownOpen(false);
+    // In a real application, you might navigate or change global state here
   };
 
   return (
     <div className="home-root">
       <div className="top-bar">
-        <div className="logo">LangBit</div>
-        <div className="lang-selector">
-          <span>Korean</span>
-          <span className="lang-icon">&#9660;</span>
+        <div className="logo">Langbit<span className="logo-korean">랑</span><span className="logo-korean">빗</span></div>
+        <div className="lang-selector" ref={dropdownRef} onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+          <div className="lang-selector-button">
+            <span>{selectedLanguage}</span>
+            <span className="lang-icon">&#9660;</span>
+          </div>
+          {isDropdownOpen && (
+            <div style={{
+              position: 'absolute',
+              top: '100%',
+              right: 0,
+              marginTop: '0.2rem',
+              backgroundColor: 'var(--card-bg)',
+              borderRadius: '12px',
+              padding: '0.5rem',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              zIndex: 1000,
+              minWidth: '180px'
+            }}>
+              <div
+                style={{
+                  padding: '0.5rem 1rem',
+                  cursor: 'pointer',
+                  borderRadius: '8px',
+                  transition: 'background-color 0.2s ease',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  backgroundColor: selectedLanguage === 'Korean' ? 'rgba(255, 255, 255, 0.05)' : 'transparent'
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)')}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = selectedLanguage === 'Korean' ? 'rgba(255, 255, 255, 0.05)' : 'transparent')}
+                onClick={() => handleLanguageSelect('Korean')}
+              >
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <span style={{ marginRight: '0.5rem', width: '1.2em', textAlign: 'center', fontWeight: 'bold', color: 'rgba(255, 255, 255, 0.7)' }}>랑</span><span style={{ color: 'rgba(255, 255, 255, 0.8)' }}>Korean</span>
+                </div>
+                {selectedLanguage === 'Korean' && (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                )}
+              </div>
+              <div
+                style={{
+                  padding: '0.5rem 1rem',
+                  cursor: 'pointer',
+                  borderRadius: '8px',
+                  transition: 'background-color 0.2s ease',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  backgroundColor: selectedLanguage === 'Russian' ? 'rgba(255, 255, 255, 0.05)' : 'transparent'
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)')}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = selectedLanguage === 'Russian' ? 'rgba(255, 255, 255, 0.05)' : 'transparent')}
+                onClick={() => handleLanguageSelect('Russian')}
+              >
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <span style={{ marginRight: '0.5rem', width: '1.2em', textAlign: 'center', fontWeight: 'bold', color: 'rgba(255, 255, 255, 0.7)' }}>Я</span><span style={{ color: 'rgba(255, 255, 255, 0.8)' }}>Russian</span>
+                </div>
+                {selectedLanguage === 'Russian' && (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="category-section">
@@ -87,7 +149,7 @@ function Home() {
       <div className="game-cards">
         {/* Vowels Card */}
         <div className="game-card vowels-card">
-          {renderBackgroundChars('ㅏ ㅐ ㅑ ㅒ ㅓ ㅔ ㅕ ㅖ ㅗ ㅘ ㅙ ㅚ ㅛ ㅜ ㅝ ㅞ ㅟ ㅠ ㅡ ㅢ ㅣ')}
+          <BackgroundChars chars='ㅏ ㅐ ㅑ ㅒ ㅓ ㅔ ㅕ ㅖ ㅗ ㅘ ㅙ ㅚ ㅛ ㅜ ㅝ ㅞ ㅟ ㅠ ㅡ ㅢ ㅣ' />
           <div className="card-symbol">ㅘ</div>
           <ProgressCircle percent={75} />
           <div className="card-bottom">
@@ -100,7 +162,7 @@ function Home() {
         </div>
         {/* Consonants Card */}
         <div className="game-card consonants-card">
-          {renderBackgroundChars('ㄱ ㄲ ㄴ ㄷ ㄸ ㄹ ㅁ ㅂ ㅃ ㅅ ㅆ ㅇ ㅈ ㅉ ㅊ ㅋ ㅌ ㅍ ㅎ')}
+          <BackgroundChars chars='ㄱ ㄲ ㄴ ㄷ ㄸ ㄹ ㅁ ㅂ ㅃ ㅅ ㅆ ㅇ ㅈ ㅉ ㅊ ㅋ ㅌ ㅍ ㅎ' />
           <div className="card-symbol">ㅉ</div>
           <ProgressCircle percent={8} />
           <div className="card-bottom">
@@ -113,7 +175,7 @@ function Home() {
         </div>
         {/* Mix Letters Card */}
         <div className="game-card mix-card">
-          {renderBackgroundChars('ㅏ ㄱ ㅐ ㄲ ㅑ ㄴ ㅒ ㄷ ㅓ ㄸ ㅔ ㄹ ㅕ ㅁ ㅖ ㅂ ㅗ ㅃ ㅘ ㅅ ㅙ ㅆ ㅚ ㅇ ㅛ ㅈ ㅜ ㅉ ㅝ ㅊ ㅞ ㅋ ㅟ ㅌ ㅠ ㅡ ㅍ ㅢ ㅎ ㅣ')}
+          <BackgroundChars chars='ㅏ ㄱ ㅐ ㄲ ㅑ ㄴ ㅒ ㄷ ㅓ ㄸ ㅔ ㄹ ㅕ ㅁ ㅖ ㅂ ㅗ ㅃ ㅘ ㅅ ㅙ ㅆ ㅚ ㅇ ㅛ ㅈ ㅜ ㅉ ㅝ ㅊ ㅞ ㅋ ㅟ ㅌ ㅠ ㅡ ㅍ ㅢ ㅎ ㅣ' />
           <div className="card-symbol mix-symbols">
             <span className="rotated">ㅘ</span> <span>ㅉ</span>
           </div>

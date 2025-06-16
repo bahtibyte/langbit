@@ -138,13 +138,26 @@ h2 {
 /* --- Home Screen V2 Styles --- */
 
 .home-root {
-  min-height: 100vh;
+  width: 100%;
+  height: 100vh;
   background: var(--background);
   color: var(--text);
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: 'Roboto Flex', sans-serif;
+  overflow: hidden;
+}
+
+.scrollable-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 2rem;
 }
 
 .top-bar {
@@ -154,6 +167,21 @@ h2 {
   justify-content: space-between;
   align-items: center;
   padding: 2rem 0 1.5rem 0;
+}
+
+.category-section {
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+}
+
+.game-cards {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .logo {
@@ -233,13 +261,6 @@ h2 {
   transform: none;
 }
 
-.category-section {
-  width: 100%;
-  max-width: 480px;
-  margin-bottom: 1.5rem;
-  margin-top: 1rem;
-}
-
 .category-title {
   font-size: 1.2rem;
   font-weight: 700;
@@ -253,14 +274,6 @@ h2 {
   color: #e0e0e0;
   margin-bottom: 1.5rem;
   font-family: 'Roboto Flex', sans-serif;
-}
-
-.game-cards {
-  width: 100%;
-  max-width: 480px;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
 }
 
 .game-card {
@@ -512,9 +525,10 @@ h2 {
 
 /* Responsive Styles */
 @media (max-width: 600px) {
-  .home-root {
-    padding: 0;
+  .scrollable-container {
+    padding-bottom: 1rem;
   }
+
   .top-bar {
     width: 100%;
     max-width: none;
@@ -524,6 +538,7 @@ h2 {
     padding-left: 1.1rem;
     padding-right: 1.1rem;
   }
+
   .category-section {
     width: 100%;
     max-width: none;
@@ -533,12 +548,15 @@ h2 {
     padding-left: 1.1rem;
     padding-right: 1.1rem;
   }
+
   .category-title {
     padding: 0;
   }
+
   .category-desc {
     padding: 0;
   }
+
   .game-cards {
     width: 100%;
     max-width: none;
@@ -546,14 +564,12 @@ h2 {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
     gap: 1rem;
     padding-bottom: 1rem;
-    height: auto;
-    max-height: 100vh;
     padding-left: 1.1rem;
     padding-right: 1.1rem;
   }
+
   .game-card {
     width: 100%;
     max-width: none;
@@ -564,10 +580,12 @@ h2 {
     border-radius: 14px;
     padding: 0;
   }
+
   .card-bg-text {
     font-size: 0.95rem;
     padding: 0.8rem 0.8rem 0.8rem 0.8rem;
   }
+
   .card-bottom {
     flex-direction: row;
     align-items: center;
@@ -575,23 +593,29 @@ h2 {
     padding: 1rem 1.3rem 1rem 1.3rem;
     min-height: 60px;
   }
+
   .card-title {
     margin-bottom: 0;
   }
+
   .card-text-content {
     max-width: 50%;
   }
+
   .card-desc {
     font-size: 0.65rem;
   }
+
   .start-btn {
     padding: 0.5rem 1.2rem;
     font-size: 0.95rem;
   }
+
   .card-symbol {
     left: 1.3rem;
     top: 1.3rem;
   }
+
   .progress-circle {
     right: 1.3rem;
     left: auto;

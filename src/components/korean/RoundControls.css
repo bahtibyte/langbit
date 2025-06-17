@@ -1,0 +1,37 @@
+.round-control-button {
+  width: 120px !important;
+  border-radius: 12px !important;
+  border: 1px solid var(--border) !important;
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+  cursor: pointer !important;
+  padding: 0.5rem !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1.5rem !important;
+  transition: all 0.3s ease !important;
+  transform: scale(1) !important;
+}
+
+.round-control-button:hover {
+  transform: scale(1.05) !important;
+  animation: button-vibrate 0.3s ease-in-out !important;
+  border-color: var(--border) !important;
+}
+
+.round-control-button.disabled {
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
+}
+
+@keyframes button-vibrate {
+  0% { transform: scale(1.05) rotate(0deg) !important; }
+  25% { transform: scale(1.05) rotate(1deg) !important; }
+  50% { transform: scale(1.05) rotate(-1deg) !important; }
+  75% { transform: scale(1.05) rotate(1deg) !important; }
+  100% { transform: scale(1.05) rotate(0deg) !important; }
+} 

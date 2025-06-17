@@ -119,7 +119,7 @@ function Korean() {
           overflow: 'hidden'
         }}>
           <GameInfo remainingCount={questionPool.length} />
-          <QuestionCard question={currentQuestion[0]} />
+          <QuestionCard question={currentQuestion[0]} gameType={gameType as 'vowels' | 'consonants' | 'both'} />
 
           <div style={{ 
             width: '100%',
@@ -134,7 +134,8 @@ function Korean() {
             {!selectedAnswer ? (
               <AnswerOptions 
                 options={options} 
-                onAnswerClick={handleAnswerClick} 
+                onAnswerClick={handleAnswerClick}
+                gameType={gameType as 'vowels' | 'consonants' | 'both'}
               />
             ) : (
               <RoundControls 

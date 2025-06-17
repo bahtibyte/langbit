@@ -1,8 +1,22 @@
 interface QuestionCardProps {
   question: string;
+  gameType?: 'vowels' | 'consonants' | 'both';
 }
 
-export function QuestionCard({ question }: QuestionCardProps) {
+export function QuestionCard({ question, gameType = 'both' }: QuestionCardProps) {
+  const getGradient = () => {
+    switch (gameType) {
+      case 'vowels':
+        return 'linear-gradient(135deg, #FF768F 0%, #FEA3AA 33%, #F8A293 66%, #FF9572 100%)';
+      case 'consonants':
+        return 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)';
+      case 'both':
+        return 'linear-gradient(135deg, #fbc2eb 0%, #fd868c 100%)';
+      default:
+        return 'linear-gradient(135deg, #fbc2eb 0%, #fd868c 100%)';
+    }
+  };
+
   return (
     <div
       style={{
@@ -17,8 +31,8 @@ export function QuestionCard({ question }: QuestionCardProps) {
         justifyContent: 'center',
         border: '2px solid var(--border)',
         borderRadius: '12px',
-        background: 'linear-gradient(135deg, #FFFFFF 0%, #E9E6F5 100%)',
-        color: 'var(--background)',
+        background: getGradient(),
+        color: '#FFFFFF',
         margin: '0 auto'
       }}
     >

@@ -51,6 +51,7 @@ style.textContent = `
     aspect-ratio: 1;
     border-radius: 16px;
     border: none;
+    outline: none;
     background: #2d2d2d;
     color: #FFFFFF;
     cursor: pointer;
@@ -72,6 +73,10 @@ style.textContent = `
     transform: scale(1.1);
     background: var(--hover-gradient);
     animation: shake 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+  }
+
+  .answer-button:focus {
+    outline: none;
   }
 
   @keyframes shake {

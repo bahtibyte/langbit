@@ -119,7 +119,12 @@ function Korean() {
           overflow: 'hidden'
         }}>
           <GameInfo remainingCount={questionPool.length} />
-          <QuestionCard question={currentQuestion[0]} gameType={gameType as 'vowels' | 'consonants' | 'both'} />
+          <QuestionCard 
+            question={currentQuestion[0]} 
+            gameType={gameType as 'vowels' | 'consonants' | 'both'} 
+            isIncorrect={selectedAnswer !== null && selectedAnswer !== currentQuestion[1]}
+            isCorrect={selectedAnswer !== null && selectedAnswer === currentQuestion[1]}
+          />
 
           <div style={{ 
             width: '100%',
